@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">HLSPlayback</string>
+
+    <string name="placeholder">This is just a placeholder for most text fields.</string>
+
+    <string name="instructions">Select a URL below to play its video.</string>
+
+    <string name="download">Download</string>
+    <string name="delete">Delete</string>
+
+    <string name="download_start_error">Failed to start download</string>
+</resources>

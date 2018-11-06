@@ -32,7 +32,7 @@ public class PlayerEventListener implements Player.EventListener {
      * When this listener is used, we must grab a weak reference to the player and its context
      * since it is not provided by the interface.
      * @param context Context for the provided media player.
-     * @param media Media player whos events we will receive
+     * @param media Media player to creating events we will receive
      */
     public PlayerEventListener(Context context, Player media) {
         mWeakContext = new WeakReference<>(context);

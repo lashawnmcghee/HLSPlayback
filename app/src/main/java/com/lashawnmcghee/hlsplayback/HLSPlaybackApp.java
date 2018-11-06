@@ -33,6 +33,9 @@ public class HLSPlaybackApp extends Application {
     @Override
     public void onTerminate() {
         super.onTerminate();
+
+        Context context = getApplicationContext();
+        ExoPlayerCacheUtil.getInstance(context).release();
     }
 
     @Override

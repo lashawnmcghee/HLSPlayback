@@ -252,6 +252,7 @@ public class MediaDownloadTracker implements DownloadManager.Listener {
     private final class StartDownloadDialogHelper
             implements DownloadHelper.Callback, DialogInterface.OnClickListener {
 
+        private final Context mContext;
         private final DownloadHelper downloadHelper;
         private final String name;
 
@@ -263,13 +264,14 @@ public class MediaDownloadTracker implements DownloadManager.Listener {
 
         public StartDownloadDialogHelper(
                 Context context, DownloadHelper downloadHelper, String name) {
+            mContext = context;
             this.downloadHelper = downloadHelper;
             this.name = name;
             builder =
                     new AlertDialog.Builder(context)
                             .setTitle(R.string.exo_download_description)
                             .setPositiveButton(android.R.string.ok, this)
-                            .setNegativeButton(android.R.string.cancel, null);
+                            .setNegativeButton(android.R.string.cancel, this);
 
             // Inflate with the builder's context to ensure the correct style is used.
             LayoutInflater dialogInflater = LayoutInflater.from(builder.getContext());
@@ -316,17 +318,23 @@ public class MediaDownloadTracker implements DownloadManager.Listener {
 
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            ArrayList<TrackKey> selectedTrackKeys = new ArrayList<>();
-            for (int i = 0; i < representationList.getChildCount(); i++) {
-                if (representationList.isItemChecked(i)) {
-                    selectedTrackKeys.add(trackKeys.get(i));
+            if(which == DialogInterface.BUTTON_POSITIVE) {
+                ArrayList<TrackKey> selectedTrackKeys = new ArrayList<>();
+                for (int i = 0; i < representationList.getChildCount(); i++) {
+                    if (representationList.isItemChecked(i)) {
+                        selectedTrackKeys.add(trackKeys.get(i));
+                    }
                 }
-            }
-            if (!selectedTrackKeys.isEmpty() || trackKeys.isEmpty()) {
-                // We have selected keys, or we're dealing with single stream content.
-                DownloadAction downloadAction =
-                        downloadHelper.getDownloadAction(Util.getUtf8Bytes(name), selectedTrackKeys);
-                startDownload(downloadAction);
+                if (!selectedTrackKeys.isEmpty() || trackKeys.isEmpty()) {
+                    // We have selected keys, or we're dealing with single stream content.
+                    DownloadAction downloadAction =
+                            downloadHelper.getDownloadAction(Util.getUtf8Bytes(name), selectedTrackKeys);
+                    startDownload(downloadAction);
+                }
+            } else {
+                for (IDownloadListener listener : mListeners) {
+                    listener.onDownloadStatusChanged();
+                }
             }
         }
     }

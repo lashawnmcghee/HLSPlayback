@@ -89,6 +89,23 @@ public class ExoPlayerCacheUtil {
     }
 
     /**
+     * Release this instance of the utility.
+     */
+    public void release() {
+        mDownloadManager.release();
+        mDownloadManager = null;
+        mDownloadTracker = null;
+
+        //Should we release the cache here? The background service works even when the app is not.
+        //mDownloadCache.release();
+        mDownloadCache = null;
+        mDownloadDirectory = null;
+
+        mContext = null;
+        instance = null;
+    }
+
+    /**
      * Returns a {@link DataSource.Factory}.
      * Use of this data source will keep the app in sync with the created cache.
      */

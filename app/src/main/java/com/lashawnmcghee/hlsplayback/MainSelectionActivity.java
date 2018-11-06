@@ -85,11 +85,13 @@ public class MainSelectionActivity extends AppCompatActivity implements IDownloa
      */
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        if(i > 0 && i <= TestStreams.getHlsArray().length) {
+        int iCount = mChoicesAdapter.getCount();
+        if(i > 0 && i <= iCount) {
             //Since we have a header, we must subtract to get the correct index into the streams array
             int iStreamIndex = i - 1;
+            String sURL = mChoicesAdapter.getItem(iStreamIndex);
             Intent intent = new Intent(MainSelectionActivity.this, MediaPlayerActivity.class);
-            intent.putExtra("urlIndex", iStreamIndex);
+            intent.putExtra("urlString", sURL);
             startActivity(intent);
         }
     }

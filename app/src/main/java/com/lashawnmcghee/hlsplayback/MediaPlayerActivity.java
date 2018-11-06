@@ -25,7 +25,6 @@ import com.lashawnmcghee.hlsplayback.listeners.MediaDownloadTracker;
 import com.lashawnmcghee.hlsplayback.listeners.PlayerEventListener;
 import com.lashawnmcghee.hlsplayback.util.ExoPlayerCacheUtil;
 import com.lashawnmcghee.hlsplayback.util.HLSAppSharedPreferences;
-import com.lashawnmcghee.hlsplayback.util.TestStreams;
 
 import java.util.List;
 
@@ -72,9 +71,8 @@ public class MediaPlayerActivity extends AppCompatActivity implements IDownloadL
         //Get the media URL from our Intent
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            if (bundle.containsKey("urlIndex")) {
-                int idx = bundle.getInt("urlIndex", -1);
-                mStreamLink = TestStreams.getHLSLink(idx);
+            if (bundle.containsKey("urlString")) {
+                mStreamLink = bundle.getString("urlString", "");
             } else {
                 finish();
             }

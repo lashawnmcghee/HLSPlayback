@@ -7,6 +7,7 @@ import android.app.Notification;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 import com.google.android.exoplayer2.offline.DownloadManager;
 import com.google.android.exoplayer2.offline.DownloadManager.TaskState;
@@ -134,6 +135,7 @@ public class MediaDownloadService extends DownloadService {
                         Util.fromUtf8Bytes(taskState.action.data));
                 break;
             case TaskState.STATE_CANCELED:
+                Toast.makeText(getApplicationContext(), "Download was canceled!", Toast.LENGTH_LONG);
             case TaskState.STATE_QUEUED:
             case TaskState.STATE_STARTED:
             default:
